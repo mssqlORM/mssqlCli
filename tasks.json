@@ -1,0 +1,50 @@
+[
+  {
+    "id": "TASK-1783238618691-1",
+    "title": "[LLM Review] Issue: [New commands/flags] [added] [expand CLI].",
+    "description": "[New commands/flags] [added] [expand CLI].",
+    "priority": "medium",
+    "status": "done",
+    "createdAt": "2026-07-05T08:03:38.691Z"
+  },
+  {
+    "id": "TASK-1783238618691-2",
+    "title": "[LLM Review] Issue: [dist/index.js] [edited] [compiled file]. Fix: edi",
+    "description": "[dist/index.js] [edited] [compiled file]. Fix: edit source TS.",
+    "priority": "medium",
+    "status": "todo",
+    "createdAt": "2026-07-05T08:03:38.691Z"
+  },
+  {
+    "id": "TASK-1783238618691-3",
+    "title": "[LLM Review] Issue: [createTasksFromReview(co] [broken] [truncated cod",
+    "description": "[createTasksFromReview(co] [broken] [truncated code]. Fix: complete line.",
+    "priority": "medium",
+    "status": "todo",
+    "createdAt": "2026-07-05T08:03:38.691Z"
+  },
+  {
+    "id": "TASK-1783238618691-4",
+    "title": "[LLM Review] Issue: [execSync] [used] [blocks loop]. Fix: use async.",
+    "description": "[execSync] [used] [blocks loop]. Fix: use async.",
+    "priority": "medium",
+    "status": "todo",
+    "createdAt": "2026-07-05T08:03:38.691Z"
+  },
+  {
+    "id": "TASK-1783238618691-5",
+    "title": "[LLM Review] Issue: [Dynamic require] [used] [fragile path]. Fix: use ",
+    "description": "[Dynamic require] [used] [fragile path]. Fix: use dependency.",
+    "priority": "medium",
+    "status": "todo",
+    "createdAt": "2026-07-05T08:03:38.691Z"
+  },
+  {
+    "id": "TASK-1783238618691-6",
+    "title": "[LLM Review] Issue: [process.env.MSSQL_CLI_CHECKS_RUNNING] [managed] [",
+    "description": "[process.env.MSSQL_CLI_CHECKS_RUNNING] [managed] [prevent recursion]. OK.",
+    "priority": "medium",
+    "status": "todo",
+    "createdAt": "2026-07-05T08:03:38.691Z"
+  }
+]

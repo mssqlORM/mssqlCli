@@ -1,0 +1,20 @@
+{
+  "name": "mssql-cli",
+  "version": "0.1.0",
+  "description": "Shared CLI for changelog generation, release automation, and component-based commits.",
+  "bin": {
+    "mssql-cli": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json && npm run build --prefix ui",
+    "start": "node dist/index.js",
+    "tunnel": "node dist/index.js tunnel start",
+    "test": "node test/smoke.test.js"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.0",
+    "typescript": "^6.0.3"
+  }
+}
