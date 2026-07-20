@@ -31,7 +31,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       <div className="brand">
         <span className="logo">⚡</span>
         <div className="brand-name">
-          <h1>mssqlORM</h1>
+          <h1>an5ORM</h1>
           <span>Workspace Manager</span>
         </div>
       </div>

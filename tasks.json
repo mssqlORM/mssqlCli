@@ -41,8 +41,8 @@
   },
   {
     "id": "TASK-1783238618691-6",
-    "title": "[LLM Review] Issue: [process.env.MSSQL_CLI_CHECKS_RUNNING] [managed] [",
-    "description": "[process.env.MSSQL_CLI_CHECKS_RUNNING] [managed] [prevent recursion]. OK.",
+    "title": "[LLM Review] Issue: [process.env.AN5_CLI_CHECKS_RUNNING] [managed] [",
+    "description": "[process.env.AN5_CLI_CHECKS_RUNNING] [managed] [prevent recursion]. OK.",
     "priority": "medium",
     "status": "todo",
     "createdAt": "2026-07-05T08:03:38.691Z"

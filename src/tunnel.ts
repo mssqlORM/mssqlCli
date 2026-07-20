@@ -28,7 +28,7 @@ function checkVercelCli(): boolean {
 async function startTunnel(options: TunnelOptions) {
   if (vercelProcess) {
     console.log(`\n⚠️  Tunnel already running on ${tunnelUrl}`);
-    console.log(`   Stop it first: mssql-cli tunnel stop\n`);
+    console.log(`   Stop it first: an5-cli tunnel stop\n`);
     return;
   }
 
@@ -81,7 +81,7 @@ async function startTunnel(options: TunnelOptions) {
   await new Promise(r => setTimeout(r, 5000));
 
   if (!tunnelUrl) {
-    console.log(`\n⏳ Tunnel starting... check status with: mssql-cli tunnel status\n`);
+    console.log(`\n⏳ Tunnel starting... check status with: an5-cli tunnel status\n`);
   }
 }
 
@@ -114,7 +114,7 @@ async function getTunnelStatus() {
   console.log(`   URL:       ${tunnelUrl}`);
   console.log(`   Port:      ${currentPort}`);
   console.log(`   API:       http://localhost:5070 (for VITE_API_URL)`);
-  console.log(`   Stop:      mssql-cli tunnel stop\n`);
+  console.log(`   Stop:      an5-cli tunnel stop\n`);
 }
 
 export { startTunnel, stopTunnel, getTunnelStatus };

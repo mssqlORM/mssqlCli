@@ -34,7 +34,7 @@ interface RepoActionsConfig {
 }
 
 const REPO_ACTIONS: RepoActionsConfig = {
-  mssqlOrm: [
+  an5Orm: [
     { id: 'generate', label: 'Generate', icon: '⚙️', variant: 'accent', endpoint: '/api/repo/run', confirm: 'Run code generator?' },
     { id: 'db:push', label: 'DB Push', icon: '⬆️', variant: 'primary', endpoint: '/api/repo/run', confirm: 'Push schema to database?' },
     { id: 'db:pull', label: 'DB Pull', icon: '⬇️', variant: 'primary', endpoint: '/api/repo/run', confirm: 'Pull schema from database?' },
@@ -42,10 +42,10 @@ const REPO_ACTIONS: RepoActionsConfig = {
     { id: 'db:cleanup', label: 'DB Cleanup', icon: '🧹', variant: 'danger', endpoint: '/api/repo/run', confirm: 'Cleanup database?' },
     { id: 'db:migrate', label: 'DB Migrate', icon: '🔄', variant: 'accent', endpoint: '/api/repo/run', confirm: 'Run migration?' },
   ],
-  mssqlAgent: [
+  an5Agent: [
     { id: 'rag:index', label: 'RAG Index', icon: '🔍', variant: 'accent', endpoint: '/api/repo/run' },
   ],
-  mssqlSchema: [
+  an5Schema: [
     { id: 'validate', label: 'Validate Schemas', icon: '✅', variant: 'success', endpoint: '/api/repo/run' },
   ],
 };

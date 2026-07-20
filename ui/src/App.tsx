@@ -147,7 +147,7 @@ export default function App() {
         <button className="mobile-menu-btn" onClick={() => setSidebarOpen(!sidebarOpen)}>
           {sidebarOpen ? '✕' : '☰'}
         </button>
-        <span className="mobile-title">mssqlORM</span>
+        <span className="mobile-title">an5ORM</span>
         <div className="mobile-header-actions">
           <button className="btn-icon" onClick={() => setIsSettingsOpen(true)} title="Settings">⚙️</button>
         </div>

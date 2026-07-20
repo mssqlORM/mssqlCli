@@ -8,14 +8,14 @@ import { execFileSync, execSync } from 'child_process';
 // Maps each repo to the repos it EXPORTS to (downstream consumers).
 // When repo X changes, all repos in DEPENDS_ON[X] are affected.
 const DEPENDS_ON: Record<string, string[]> = {
-  mssqlSchema:     ['mssqlOrm', 'mssqlAgent', 'mssqlOrmVScode'],
-  mssqlOrm:        ['mssqlClient', 'mssqlAdapters', 'mssqlAgent', 'mssqlCli'],
-  mssqlClient:     ['mssqlAdapters', 'mssqlAgent'],
-  mssqlAdapters:   ['mssqlAgent'],
-  mssqlAgent:      ['mssqlCli'],
-  mssqlTasks:      ['mssqlCli'],
-  mssqlCli:        [],
-  mssqlOrmVScode:  [],
+  an5Schema:     ['an5Orm', 'an5Agent', 'an5OrmVScode'],
+  an5Orm:        ['an5Client', 'an5Adapters', 'an5Agent', 'an5Cli'],
+  an5Client:     ['an5Adapters', 'an5Agent'],
+  an5Adapters:   ['an5Agent'],
+  an5Agent:      ['an5Cli'],
+  an5Tasks:      ['an5Cli'],
+  an5Cli:        [],
+  an5OrmVScode:  [],
 };
 
 // What type of impact each changed component triggers
@@ -60,8 +60,8 @@ function git(args: string[], cwd: string, allowFail = false): string {
 function inferComponent(file: string): string {
   const normalized = file.replace(/\\/g, '/').toLowerCase();
   if (normalized.includes('/generator/')) return 'generator';
-  if (normalized.includes('/mssqlclient/')) return 'client';
-  if (normalized.includes('/mssqlschema/')) return 'schema';
+  if (normalized.includes('/an5client/')) return 'client';
+  if (normalized.includes('/an5schema/')) return 'schema';
   if (normalized.includes('/.github/')) return 'ci';
   if (normalized.includes('package.json') || normalized.includes('tsconfig')) return 'build';
   if (normalized.includes('.md')) return 'docs';
@@ -289,7 +289,7 @@ export async function executeSync(
     console.log(`\n🔨 Building affected repos...`);
     for (const repoName of plan.buildOrder) {
       if (repoName === plan.impact.sourceRepo) continue; // skip source
-      const repoPath = repoName === 'mssql-workspace'
+      const repoPath = repoName === 'an5-workspace'
         ? workspaceDir
         : path.join(workspaceDir, repoName);
 

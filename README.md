@@ -1,6 +1,6 @@
-# mssqlCli
+# an5Cli
 
-CLI automation tool for MSSQL ORM workspace. Handles changelog generation, release automation, and LLM-powered commit messages across multiple repositories.
+CLI automation tool for AN5 ORM workspace. Handles changelog generation, release automation, and LLM-powered commit messages across multiple repositories.
 
 ## Features
 
@@ -13,7 +13,7 @@ CLI automation tool for MSSQL ORM workspace. Handles changelog generation, relea
 ## Installation
 
 ```bash
-cd mssqlCli
+cd an5Cli
 npm install
 npm run build
 ```
@@ -25,7 +25,7 @@ npm run build
 Generate changelog, commit, and push for a single repository.
 
 ```bash
-mssql-cli release [path] [options]
+an5-cli release [path] [options]
 
 Options:
   --dry-run         Preview without committing
@@ -42,7 +42,7 @@ Options:
 Run release across all repositories in the workspace.
 
 ```bash
-mssql-cli ws [path] [options]
+an5-cli ws [path] [options]
 
 Options:
   Same as release, plus:
@@ -54,7 +54,7 @@ Options:
 Store GitHub credentials and update all remote URLs.
 
 ```bash
-mssql-cli login [username] [token]
+an5-cli login [username] [token]
 ```
 
 If no arguments provided, attempts browser login via `gh` CLI.
@@ -64,46 +64,46 @@ If no arguments provided, attempts browser login via `gh` CLI.
 Run a custom script from `workspace.json`.
 
 ```bash
-mssql-cli run <script-name>
+an5-cli run <script-name>
 ```
 
 ### `format`
 
-Auto-format `.mssql` files using premium alignment rules (same as VS Code).
+Auto-format `.an5` files using premium alignment rules (same as VS Code).
 
 ```bash
-mssql-cli format [path]
+an5-cli format [path]
 ```
 
 ## Examples
 
 ```bash
 # Release current repo
-mssql-cli release
+an5-cli release
 
 # Release and push
-mssql-cli release --push
+an5-cli release --push
 
 # Release with custom message
-mssql-cli release --message "feat: add new feature"
+an5-cli release --message "feat: add new feature"
 
 # Release all repos in workspace
-mssql-cli ws . --push
+an5-cli ws . --push
 
 # Preview changes without committing
-mssql-cli ws . --dry-run
+an5-cli ws . --dry-run
 
 # Login via browser
-mssql-cli login
+an5-cli login
 ```
 
 ## Configuration
 
-### `.mssqlcli.json`
+### `.an5cli.json`
 
 ```json
 {
-  "defaultTarget": "../mssqlOrm",
+  "defaultTarget": "../an5Orm",
   "defaultBranch": "main",
   "dryRun": false,
   "push": false,

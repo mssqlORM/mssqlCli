@@ -1,4 +1,4 @@
-// ui.ts - Backend HTTP server for mssql-cli Web UI Dashboard
+// ui.ts - Backend HTTP server for an5-cli Web UI Dashboard
 
 import http from 'http';
 import fs from 'fs';
@@ -9,7 +9,7 @@ import { analyzeImpact, analyzeDocUpdates, executeSync } from './impact';
 
 function loadTasksModule() {
   try {
-    return require('../../mssqlTasks/dist/index');
+    return require('../../an5Tasks/dist/index');
   } catch {
     return null;
   }
@@ -32,7 +32,7 @@ function getRepositories(workspaceDir: string) {
   try {
     const parentPkg = JSON.parse(fs.readFileSync(path.join(workspaceDir, 'package.json'), 'utf8'));
     list.push({
-      name: parentPkg.name || 'mssql-workspace (parent)',
+      name: parentPkg.name || 'an5-workspace (parent)',
       path: workspaceDir,
       description: parentPkg.description || 'Parent workspace repository managing submodules',
       modifiedFiles: []
@@ -281,7 +281,7 @@ export function startUiServer(workspaceDir: string, options?: { tunnel?: boolean
             const scripts = pkg.scripts || {};
 
             // Prevent infinite recursion in case tests trigger CLI release again
-            process.env.MSSQL_CLI_CHECKS_RUNNING = 'true';
+            process.env.AN5_CLI_CHECKS_RUNNING = 'true';
 
             try {
               if (scripts.build) {
@@ -306,7 +306,7 @@ export function startUiServer(workspaceDir: string, options?: { tunnel?: boolean
               success = false;
               logs += `❌ Command failed:\n` + (err.stdout?.toString() || err.message) + '\n';
             } finally {
-              delete process.env.MSSQL_CLI_CHECKS_RUNNING;
+              delete process.env.AN5_CLI_CHECKS_RUNNING;
             }
           } else {
             logs += `No package.json found. Skipping checks.\n`;
@@ -349,7 +349,7 @@ export function startUiServer(workspaceDir: string, options?: { tunnel?: boolean
           
           if (review) {
             try {
-              const { createTasksFromReview } = require('../../mssqlTasks/dist/index');
+              const { createTasksFromReview } = require('../../an5Tasks/dist/index');
               await createTasksFromReview(review, workspaceDir);
             } catch (taskErr: any) {
               console.error(`Failed to create tasks from review: ${taskErr.message}`);
@@ -413,7 +413,7 @@ export function startUiServer(workspaceDir: string, options?: { tunnel?: boolean
             return;
           }
 
-          // Build CLI command string. If the repo is the parent workspace itself, path is E:/git/mssql
+          // Build CLI command string. If the repo is the parent workspace itself, path is E:/git/an5
           const isParent = repo.path === workspaceDir;
           const cmdArgs = [
             `"${cliPath}"`,
@@ -584,7 +584,7 @@ export function startUiServer(workspaceDir: string, options?: { tunnel?: boolean
       const tasksModule = loadTasksModule();
       if (!tasksModule) {
         res.writeHead(500, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ error: 'mssqlTasks module not built' }));
+        res.end(JSON.stringify({ error: 'an5Tasks module not built' }));
         return;
       }
 
@@ -607,7 +607,7 @@ export function startUiServer(workspaceDir: string, options?: { tunnel?: boolean
         const tasksModule = loadTasksModule();
         if (!tasksModule) {
           res.writeHead(500, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({ error: 'mssqlTasks module not built' }));
+          res.end(JSON.stringify({ error: 'an5Tasks module not built' }));
           return;
         }
 
@@ -638,7 +638,7 @@ export function startUiServer(workspaceDir: string, options?: { tunnel?: boolean
         const tasksModule = loadTasksModule();
         if (!tasksModule) {
           res.writeHead(500, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({ error: 'mssqlTasks module not built' }));
+          res.end(JSON.stringify({ error: 'an5Tasks module not built' }));
           return;
         }
 
@@ -909,7 +909,7 @@ export function startUiServer(workspaceDir: string, options?: { tunnel?: boolean
 
   server.listen(PORT, async () => {
     const url = `http://localhost:${PORT}`;
-    console.log(`\n⚡ mssqlORM Workspace Manager Dashboard running at ${url}`);
+    console.log(`\n⚡ an5ORM Workspace Manager Dashboard running at ${url}`);
     console.log(`Press Ctrl+C to terminate the UI server.\n`);
 
     // Create tunnel if requested

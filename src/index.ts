@@ -7,7 +7,7 @@ import { analyzeImpact, analyzeDocUpdates, buildSyncPlan, executeSync } from './
 
 function loadTasksModule() {
   try {
-    return require('../../mssqlTasks/dist/index');
+    return require('../../an5Tasks/dist/index');
   } catch {
     return null;
   }
@@ -68,7 +68,7 @@ function git(args: string[], allowFail = false): string {
 }
 
 function printHelp() {
-  console.log(`mssql-cli — Release & Workspace Automation
+  console.log(`an5-cli — Release & Workspace Automation
 
 Commands:
   ui                         Launch the premium Web UI Dashboard for workspace management
@@ -76,7 +76,7 @@ Commands:
   config                     Interactive setup for LLM provider and credentials (.env)
   doc [path]                 Generate or improve documentation for code files or README using LLM
   doc:diff [path]            Auto-update docs based on changed files (diff-aware)
-  format [path]              Auto-format .mssql files using alignment rules
+  format [path]              Auto-format .an5 files using alignment rules
   impact [path]              Analyze cross-repo impact from changes in a repo
   sync [path]                Update affected repos: rebuild, test, update docs
   tasks [action] [path]      Manage tasks (list, update, delete)
@@ -100,7 +100,7 @@ Options:
   --skip-docs                Skip documentation updates (sync command)
   --skip-build               Skip build/test steps (sync command)
   --tunnel                   Expose UI dashboard via localtunnel (for mobile access)
-  --subdomain <name>         Custom subdomain for tunnel (e.g., my-mssql)
+  --subdomain <name>         Custom subdomain for tunnel (e.g., my-an5)
   --tunnel-port <port>       Port for tunnel (default: 5070)
   --status <status>          Filter tasks by status (todo, in-progress, done)
   --priority <priority>      Filter tasks by priority (low, medium, high)
@@ -114,36 +114,36 @@ Environment Variables (for LLM commit messages):
   LLM_MODEL                  Model name (e.g., gpt-4o-mini, gemini-2.5-flash)
   LLM_ENDPOINT               Custom endpoint URL (for custom provider)
 
-Config (.mssqlcli.json):
+Config (.an5cli.json):
   {
-    "defaultTarget": "../mssqlOrm",
+    "defaultTarget": "../an5Orm",
     "defaultBranch": "main",
     "dryRun": false,
     "push": false,
     "skipPrompt": false,
     "tunnel": {
-      "subdomain": "my-mssql",
+      "subdomain": "my-an5",
       "port": 5070
     }
   }
 
 Examples:
-  mssql-cli tasks list                       List all tasks
-  mssql-cli tasks list --status todo         List only todo tasks
-  mssql-cli tasks list --priority high       List only high priority tasks
-  mssql-cli tasks update --id TASK-123 --status done
-  mssql-cli tasks delete --id TASK-123
-  mssql-cli impact                           Analyze impact from current repo changes
-  mssql-cli sync ../mssqlOrm                 Rebuild + test all affected repos
-  mssql-cli release                          Release current/default repo
-  mssql-cli ws                               Release all repos in workspace
-  mssql-cli ui                               Launch the Web UI Dashboard
-  mssql-cli ui --tunnel                      Launch UI with localtunnel
-  mssql-cli ui --tunnel --subdomain my-app   Launch UI with custom tunnel subdomain
-  mssql-cli tunnel                           Start tunnel on port 5070
-  mssql-cli tunnel --subdomain my-app        Start tunnel with custom subdomain
-  mssql-cli tunnel stop                      Stop running tunnel
-  mssql-cli tunnel status                    Show tunnel status`);
+  an5-cli tasks list                       List all tasks
+  an5-cli tasks list --status todo         List only todo tasks
+  an5-cli tasks list --priority high       List only high priority tasks
+  an5-cli tasks update --id TASK-123 --status done
+  an5-cli tasks delete --id TASK-123
+  an5-cli impact                           Analyze impact from current repo changes
+  an5-cli sync ../an5Orm                 Rebuild + test all affected repos
+  an5-cli release                          Release current/default repo
+  an5-cli ws                               Release all repos in workspace
+  an5-cli ui                               Launch the Web UI Dashboard
+  an5-cli ui --tunnel                      Launch UI with localtunnel
+  an5-cli ui --tunnel --subdomain my-app   Launch UI with custom tunnel subdomain
+  an5-cli tunnel                           Start tunnel on port 5070
+  an5-cli tunnel --subdomain my-app        Start tunnel with custom subdomain
+  an5-cli tunnel stop                      Stop running tunnel
+  an5-cli tunnel status                    Show tunnel status`);
 }
 
 function parseArgs(argv: string[]): Options {
@@ -202,8 +202,8 @@ function parseArgs(argv: string[]): Options {
 function inferComponent(file: string): string {
   const normalized = file.replace(/\\/g, '/').toLowerCase();
   if (normalized.includes('/generator/')) return 'generator';
-  if (normalized.includes('/mssqlclient/')) return 'client';
-  if (normalized.includes('/mssqlschema/')) return 'schema';
+  if (normalized.includes('/an5client/')) return 'client';
+  if (normalized.includes('/an5schema/')) return 'schema';
   if (normalized.includes('/.github/')) return 'ci';
   if (normalized.includes('package.json') || normalized.includes('tsconfig')) return 'build';
   if (normalized.includes('.md')) return 'docs';
@@ -322,7 +322,7 @@ function detectBranch(cwd: string): string {
       if (remoteHead) return remoteHead.replace('refs/remotes/origin/', '');
     } catch { /* fall through */ }
     try {
-      const config = JSON.parse(fs.readFileSync(path.join(cwd, '.mssqlcli.json'), 'utf8'));
+      const config = JSON.parse(fs.readFileSync(path.join(cwd, '.an5cli.json'), 'utf8'));
       if (config.defaultBranch) return config.defaultBranch;
     } catch { /* fall through */ }
     return 'main';
@@ -332,7 +332,7 @@ function detectBranch(cwd: string): string {
 }
 
 function loadConfig(cwd: string): Config {
-  const configPath = path.join(cwd, '.mssqlcli.json');
+  const configPath = path.join(cwd, '.an5cli.json');
   if (!fs.existsSync(configPath)) return {};
   return JSON.parse(fs.readFileSync(configPath, 'utf8')) as Config;
 }
@@ -402,7 +402,7 @@ function ghLoginViaBrowser(cwd: string) {
     const oldParent = updateRemoteUrl(cwd, user);
     if (oldParent) {
       storeCredentialForRepo(cwd, user, token);
-      console.log(`  ✓ mssql: -> https://${user}@github.com/...`);
+      console.log(`  ✓ an5: -> https://${user}@github.com/...`);
     }
 
     const subs = getSubmodules(cwd);
@@ -442,7 +442,7 @@ function cmdLogin(cwd: string, username?: string, token?: string): Promise<void>
       return Promise.resolve();
     }
     console.log('GitHub CLI (gh) not found. Install from https://cli.github.com');
-    console.log('Or use: mssql-cli login <username> <token>\n');
+    console.log('Or use: an5-cli login <username> <token>\n');
     cmdLoginManual(cwd);
     return Promise.resolve();
   }
@@ -459,7 +459,7 @@ function doLogin(cwd: string, username: string, token: string) {
   const oldParent = updateRemoteUrl(cwd, username, token);
   if (oldParent) {
     storeCredentialForRepo(cwd, username, token);
-    console.log(`  ✓ mssql: ${oldParent.replace(/^https:\/\/([^@]+@)?/, 'https://')} -> https://${username}@github.com/...`);
+    console.log(`  ✓ an5: ${oldParent.replace(/^https:\/\/([^@]+@)?/, 'https://')} -> https://${username}@github.com/...`);
   }
 
   // Update submodule remotes
@@ -498,8 +498,8 @@ function askQuestion(query: string): Promise<string> {
 }
 
 function runQualityChecks(cwd: string, options: Options): boolean {
-  if (options.noVerify || process.env.MSSQL_CLI_CHECKS_RUNNING) {
-    if (process.env.MSSQL_CLI_CHECKS_RUNNING) {
+  if (options.noVerify || process.env.AN5_CLI_CHECKS_RUNNING) {
+    if (process.env.AN5_CLI_CHECKS_RUNNING) {
       // Prevent infinite recursion in tests calling the CLI
       return true;
     }
@@ -516,7 +516,7 @@ function runQualityChecks(cwd: string, options: Options): boolean {
   console.log(`\n🔍 [${repoName}] Running code quality checks...`);
 
   // Set the environment variable to avoid infinite recursion
-  process.env.MSSQL_CLI_CHECKS_RUNNING = 'true';
+  process.env.AN5_CLI_CHECKS_RUNNING = 'true';
 
   try {
     const pkg = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
@@ -543,12 +543,12 @@ function runQualityChecks(cwd: string, options: Options): boolean {
 
     console.log(`  ✨ Code quality checks passed successfully!\n`);
     // Reset it
-    delete process.env.MSSQL_CLI_CHECKS_RUNNING;
+    delete process.env.AN5_CLI_CHECKS_RUNNING;
     return true;
   } catch (err: any) {
     console.error(`\n❌ Code quality checks FAILED in ${repoName}:`);
     console.error(err.stdout?.toString() || err.message);
-    delete process.env.MSSQL_CLI_CHECKS_RUNNING;
+    delete process.env.AN5_CLI_CHECKS_RUNNING;
     return false;
   }
 }
@@ -597,7 +597,7 @@ async function releaseRepo(targetDir: string, options: Options, config: Config):
       
       // Automatically generate Genkit tasks from the review
       try {
-        const { createTasksFromReview } = require('../../mssqlTasks/dist/index');
+        const { createTasksFromReview } = require('../../an5Tasks/dist/index');
         const workspaceRoot = path.resolve(resolvedDir, '..');
         await createTasksFromReview(codeReview, workspaceRoot);
       } catch (taskErr: any) {
@@ -814,7 +814,7 @@ async function cmdFormat(targetPath: string): Promise<void> {
 
   function formatFile(filePath: string) {
     const ext = path.extname(filePath).toLowerCase();
-    if (ext !== '.mssql') return;
+    if (ext !== '.an5') return;
     const content = fs.readFileSync(filePath, 'utf8');
 
     const lines = content.split(/\r?\n/);
@@ -910,7 +910,7 @@ async function cmdFormat(targetPath: string): Promise<void> {
     const files = fs.readdirSync(resolvedPath);
     for (const file of files) {
       const fullPath = path.join(resolvedPath, file);
-      if (fs.statSync(fullPath).isFile() && file.endsWith('.mssql')) {
+      if (fs.statSync(fullPath).isFile() && file.endsWith('.an5')) {
         formatFile(fullPath);
       }
     }
@@ -1025,7 +1025,7 @@ async function main() {
 
     const tasksModule = loadTasksModule();
     if (!tasksModule) {
-      console.error('Error: mssqlTasks module not found. Run: cd mssqlTasks && npm run build');
+      console.error('Error: an5Tasks module not found. Run: cd an5Tasks && npm run build');
       process.exit(1);
     }
 
@@ -1154,7 +1154,7 @@ async function main() {
 
   if (options.command === 'run') {
     const scriptName = (options as any).scriptName;
-    if (!scriptName) { console.error('Usage: mssql-cli run <script-name> [workspace-path]'); process.exit(1); }
+    if (!scriptName) { console.error('Usage: an5-cli run <script-name> [workspace-path]'); process.exit(1); }
     // Look for workspace.json in targetDir or parent
     let wsDir = options.targetDir;
     let workspacePath = path.join(wsDir, 'workspace.json');

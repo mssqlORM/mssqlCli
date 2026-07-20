@@ -1,9 +1,9 @@
 {
-  "name": "mssql-cli",
+  "name": "an5-cli",
   "version": "0.1.0",
   "description": "Shared CLI for changelog generation, release automation, and component-based commits.",
   "bin": {
-    "mssql-cli": "./dist/index.js"
+    "an5-cli": "./dist/index.js"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json && npm run build --prefix ui",
